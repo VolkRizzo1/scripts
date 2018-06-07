@@ -196,35 +196,35 @@ function Oracle.KillSteal()
     if not myHero then return end
     if not Utils9.IsSuitableToCastSpell(myHero) then return end
 
-    local Fortunes = NPC.GetAbility(myHero, "oracle_fortunes_end")
-    if not Fortunes or not Ability.IsCastable(Fortunes, NPC.GetMana(myHero)) then return end
+    local PurifyingFlames = NPC.GetAbility(myHero, "oracle_purifying_flames")
+    if not PurifyingFlames or not Ability.IsCastable(PurifyingFlames, NPC.GetMana(myHero)) then return end
 
-    local FortunesDamage = 60 + 30 * Ability.GetLevel(Fortunes)
+    local PurifyingFlamesDamage = 60 + 30 * Ability.GetLevel(PurifyingFlames)
 
     --Item Calls--
     local Lens = NPC.GetItem(myHero, "item_aether_lens", true)
     
     --Ability Ranges--
-    local FortunesRange = 850
+    local PurifyingFlamesRange = 800
     
     --Talent Tree Bonus Range-- 	
   	local TalentBonusRange = NPC.GetAbility(myHero, "special_bonus_cast_range_150")
 	
 	if Lens then
-    	FortunesRange = FortunesRange + 250
+    	PurifyingFlamesRange = PurifyingFlamesRange + 250
     end
 	
 	if TalentBonusRange and Ability.GetLevel(TalentBonusRange) > 0 then
-    	FortunesRange = FortunesRange + 150
+    	PurifyingFlamesRange = PurifyingFlamesRange + 150
   	end
   	
-    local Enemies = NPC.GetHeroesInRadius(myHero, FortunesRange, Enum.TeamType.TEAM_ENEMY)
+    local Enemies = NPC.GetHeroesInRadius(myHero, PurifyingFlamesRange, Enum.TeamType.TEAM_ENEMY)
     if not Enemies or #Enemies <= 0 then return end
 
     for i, Enemy in ipairs(Enemies) do
-    local True_Damage = FortunesDamage * NPC.GetMagicalArmorDamageMultiplier(Enemy)
+    local True_Damage = PurifyingFlamesDamage * NPC.GetMagicalArmorDamageMultiplier(Enemy)
     	if not NPC.IsIllusion(Enemy) and Utils9.CanCastSpellOn(Enemy) and Entity.GetHealth(Enemy) <= True_Damage then
-        Ability.CastTarget(Fortunes, Enemy) return end
+        Ability.CastTarget(PurifyingFlames, Enemy) return end
 	end
 end
 
